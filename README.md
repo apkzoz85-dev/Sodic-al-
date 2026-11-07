@@ -2,10 +2,16 @@
 
 Static Next.js 16 / React 19 / Tailwind 4 landing site.
 
+## Languages
+Arabic at `/…`, English at `/en/…` (same pages, own `<html dir>`). Header has a language switch; hreflang + sitemap cover both.
+- UI text: `lib/i18n.ts`
+- English project content: `lib/en.ts` (prices always come from `lib/projects.ts`)
+- Arabic project details: `lib/details.ts`
+
 ## Routes
 | Route | Page |
 |---|---|
-| `/` | Hub — all 5 projects (West + East), comparison table, lead form |
+| `/` · `/en` | Hub — all 5 projects (West + East), comparison table, lead form |
 | `/vye` | VYE — New Zayed |
 | `/karmell` | Karmell — New Zayed |
 | `/the-estates` | The Estates / Residences — New Zayed |

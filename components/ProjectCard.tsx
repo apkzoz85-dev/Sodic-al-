@@ -1,28 +1,42 @@
 import Link from "next/link";
-import type { Project } from "@/lib/projects";
+import type { LProject } from "@/lib/content";
+import { href, UI, type Lang } from "@/lib/i18n";
 import T from "./T";
 
-export default function ProjectCard({ p }: { p: Project }) {
+export default function ProjectCard({ p, lang, tall = false }: { p: LProject; lang: Lang; tall?: boolean }) {
+  const t = UI[lang];
   return (
     <Link
-      href={`/${p.slug}`}
-      style={{ ["--accent" as string]: p.accent, ["--img" as string]: `url(/images/${p.slug}/card.jpg)` }}
-      className="card-bg group relative flex flex-col justify-end min-h-[420px] rounded-2xl overflow-hidden text-paper p-6 transition hover:-translate-y-1 hover:shadow-2xl"
+      href={href(lang, `/${p.slug}`)}
+      style={{ ["--accent" as string]: p.accent }}
+      className="group flex flex-col h-full rounded-2xl overflow-hidden bg-ink-2 text-paper shadow-sm hover:shadow-2xl hover:-translate-y-1 transition duration-300"
     >
-      {p.badge && (
-        <span className="absolute top-5 right-5 text-xs font-semibold bg-paper/90 text-ink px-3 py-1 rounded-full"><T>{p.badge}</T></span>
-      )}
-      <p className="text-xs text-sand mb-2">{p.location}</p>
-      <h3 className="latin text-4xl font-bold tracking-tight mb-1">{p.name}</h3>
-      <p className="text-sm text-sand/90 mb-5"><T>{p.tagline}</T></p>
-      <div className="grid grid-cols-3 gap-2 border-t border-white/20 pt-4 mb-5">
-        <div><p className="num text-xl font-bold">{p.startPrice}</p><p className="text-[11px] text-sand-2">تبدأ من</p></div>
-        <div><p className="num text-xl font-bold">{p.downPayment}</p><p className="text-[11px] text-sand-2">مقدم</p></div>
-        <div><p className="num text-xl font-bold">{p.years}</p><p className="text-[11px] text-sand-2">سنوات</p></div>
+      <div className={`relative overflow-hidden ${tall ? "h-64 lg:h-80" : "h-56"}`}>
+        <img
+          src={`/images/${p.slug}/card.jpg`}
+          alt={`${p.name} SODIC`}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105"
+        />
+        {p.badge && (
+          <span className="absolute top-4 start-4 text-xs font-semibold bg-paper text-ink px-3 py-1 rounded-full shadow">
+            <T>{p.badge}</T>
+          </span>
+        )}
       </div>
-      <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold-2 group-hover:gap-3 transition-all">
-        تفاصيل المشروع والأسعار <span aria-hidden>←</span>
-      </span>
+      <div className="flex flex-col flex-1 p-6 border-t-4" style={{ borderColor: p.accent }}>
+        <p className="text-xs text-sand-2 mb-1.5"><T>{p.location}</T></p>
+        <h3 className="latin text-3xl font-bold tracking-tight mb-2">{p.name}</h3>
+        <p className="text-sm text-sand leading-6 mb-5"><T>{p.tagline}</T></p>
+        <dl className="grid grid-cols-3 gap-3 border-t border-white/10 pt-4 mb-5 mt-auto">
+          <div><dt className="text-[11px] text-sand-2 mb-0.5">{t.from}</dt><dd className="num text-lg font-bold">{p.startPrice}</dd></div>
+          <div><dt className="text-[11px] text-sand-2 mb-0.5">{t.down}</dt><dd className="num text-lg font-bold">{p.downPayment}</dd></div>
+          <div><dt className="text-[11px] text-sand-2 mb-0.5">{t.years}</dt><dd className="num text-lg font-bold">{p.years}</dd></div>
+        </dl>
+        <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold-2 group-hover:gap-3 transition-all">
+          {t.details} <span aria-hidden>{t.arrow}</span>
+        </span>
+      </div>
     </Link>
   );
 }

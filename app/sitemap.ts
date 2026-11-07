@@ -1,15 +1,13 @@
 import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/lib/projects";
+import { SLUGS } from "@/lib/content";
 import { SITE } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    { url: SITE.domain, priority: 1 },
-    ...PROJECTS.map((p) => ({ url: `${SITE.domain}/${p.slug}`, priority: 0.9 })),
-    { url: `${SITE.domain}/about` },
-    { url: `${SITE.domain}/privacy` },
-    { url: `${SITE.domain}/disclaimer` },
-  ];
+  const paths = ["", ...SLUGS.map((s) => `/${s}`), "/about", "/privacy", "/disclaimer"];
+  return paths.flatMap((p) => [
+    { url: `${SITE.domain}${p || "/"}`, priority: p === "" ? 1 : 0.8, alternates: { languages: { en: `${SITE.domain}/en${p}` } } },
+    { url: `${SITE.domain}/en${p}`, priority: p === "" ? 0.9 : 0.7, alternates: { languages: { ar: `${SITE.domain}${p || "/"}` } } },
+  ]);
 }

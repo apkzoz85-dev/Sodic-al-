@@ -19,11 +19,9 @@ export const SITE = {
   },
 };
 
-export const waLink = (project?: string) =>
-  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(
-    project
-      ? `مرحباً، مهتم بمشروع ${project} من سوديك وعايز الأسعار وخطط السداد`
-      : "مرحباً، مهتم بمشاريع سوديك وعايز الأسعار وخطط السداد"
-  )}`;
+import { UI, type Lang } from "./i18n";
+
+export const waLink = (project?: string, lang: Lang = "ar") =>
+  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(UI[lang].wa(project))}`;
 
 export const telLink = `tel:${SITE.phone}`;
