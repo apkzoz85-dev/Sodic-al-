@@ -10,9 +10,9 @@ import LeadPopup from "@/components/LeadPopup";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domain),
-  title: "مشاريع سوديك 2026 | VYE · Karmell · The Estates · Villette · SODIC East",
+  title: "مشاريع سوديك 2026 | VYE · Karmell · The Estates · SODIC East · East Vale",
   description:
-    "أسعار وخطط سداد مشاريع سوديك: VYE وKarmell وThe Estates في نيو زايد، وVillette في التجمع الخامس، وSODIC East في هليوبوليس الجديدة. مقدم 5% وتقسيط حتى 10 سنوات.",
+    "أسعار وخطط سداد مشاريع سوديك: VYE وKarmell وThe Estates في نيو زايد، وSODIC East في هليوبوليس الجديدة، وEast Vale في المستقبل سيتي. مقدم 5% وتقسيط حتى 10 سنوات.",
   alternates: { canonical: "/" },
 };
 

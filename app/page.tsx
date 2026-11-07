@@ -22,7 +22,7 @@ export default function Home() {
             </h1>
             <p className="text-lg text-sand max-w-xl leading-8 mb-8">
               <span className="latin">VYE</span> و<span className="latin">Karmell</span> و<span className="latin">The Estates</span> في نيو زايد،
-              و<span className="latin">Villette</span> في التجمع الخامس، و<span className="latin">SODIC East</span> في هليوبوليس الجديدة —
+              و<span className="latin">SODIC East</span> في هليوبوليس الجديدة، و<span className="latin">East Vale</span> في المستقبل سيتي —
               أسعار 2026 وخطط سداد حتى 10 سنوات.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -67,9 +67,9 @@ export default function Home() {
       <section id="east" className="py-20">
         <div className="mx-auto max-w-7xl px-4">
           <Reveal>
-            <p className="eyebrow mb-3">East Cairo · New Cairo · New Heliopolis</p>
+            <p className="eyebrow mb-3">East Cairo · New Heliopolis · Mostakbal City</p>
             <h2 className="text-3xl lg:text-4xl font-bold mb-3">مشاريع شرق القاهرة</h2>
-            <p className="text-ink/60 max-w-2xl mb-10">ڤيليت في التجمع الخامس، وسوديك إيست في هليوبوليس الجديدة.</p>
+            <p className="text-ink/60 max-w-2xl mb-10">سوديك إيست في هليوبوليس الجديدة، وإيست ڤيل — أحدث مشاريع سوديك — في المستقبل سيتي.</p>
           </Reveal>
           <div className="grid md:grid-cols-2 gap-6">
             {east.map((p, i) => <Reveal key={p.slug} delay={i * 60}><ProjectCard p={p} /></Reveal>)}

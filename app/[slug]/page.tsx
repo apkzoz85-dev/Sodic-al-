@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PROJECTS, getProject, fmt } from "@/lib/projects";
+import { PROJECTS, getProject } from "@/lib/projects";
 import LeadForm from "@/components/LeadForm";
 import Reveal from "@/components/Reveal";
 import ProjectCard from "@/components/ProjectCard";
 import T from "@/components/T";
-import { SITE, waLink } from "@/lib/site";
+import UnitCards from "@/components/UnitCards";
+import Gallery from "@/components/Gallery";
+import fs from "node:fs";
+import path from "node:path";
+import { DETAILS, DEVELOPER } from "@/lib/details";
+import { SITE } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -30,6 +35,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) notFound();
+  const d = DETAILS[p.slug];
+  const gdir = path.join(process.cwd(), "public", "images", p.slug);
+  const gcount = fs.existsSync(gdir) ? fs.readdirSync(gdir).filter((f) => /^g\d+\.jpg$/.test(f)).length : 0;
   const others = PROJECTS.filter((o) => o.slug !== p.slug);
   const accent = { ["--accent" as string]: p.accent } as React.CSSProperties;
 
@@ -75,13 +83,29 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
+      {/* KEY FACTS */}
+      {d && (
+        <section className="bg-ink-2 text-paper border-t border-white/10">
+          <div className="mx-auto max-w-7xl px-4 py-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            {d.facts.map((f) => (
+              <div key={f.label}>
+                <p className="num text-2xl lg:text-3xl font-bold" style={{ color: p.accent === "#2a4a6b" ? "#9cc0e6" : "var(--color-gold-2)" }}>{f.value}</p>
+                <p className="text-xs text-sand-2 mt-1"><T>{f.label}</T></p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* ABOUT */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 grid lg:grid-cols-2 gap-12 items-center">
           <Reveal>
             <p className="eyebrow mb-3">About {p.name}</p>
             <h2 className="text-3xl font-bold mb-5">عن مشروع <span className="latin">{p.name}</span></h2>
-            <p className="text-ink/70 leading-8 mb-6"><T>{p.intro}</T></p>
+            <div className="grid gap-4 text-ink/75 leading-8 mb-7">
+              {(d?.about ?? [p.intro]).map((t, i) => <p key={i}><T>{t}</T></p>)}
+            </div>
             <ul className="grid gap-3">
               {p.highlights.map((h) => (
                 <li key={h} className="flex gap-3 items-start">
@@ -102,62 +126,28 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
+      {/* GALLERY */}
+      {gcount > 0 && (
+        <section className="py-20 bg-sand/40">
+          <div className="mx-auto max-w-7xl px-4">
+            <Reveal>
+              <p className="eyebrow mb-3">Gallery</p>
+              <h2 className="text-3xl font-bold mb-8">صور <span className="latin">{p.name}</span></h2>
+            </Reveal>
+            <Gallery slug={p.slug} count={gcount} name={p.name} />
+          </div>
+        </section>
+      )}
+
       {/* UNITS & PRICES */}
       <section className="bg-ink text-paper py-20">
         <div className="mx-auto max-w-7xl px-4">
           <Reveal>
             <p className="eyebrow mb-3">Units & Prices</p>
-            <h2 className="text-3xl font-bold mb-10">الوحدات والأسعار في <span className="latin">{p.name}</span></h2>
+            <h2 className="text-3xl font-bold mb-8">الوحدات والأسعار في <span className="latin">{p.name}</span></h2>
           </Reveal>
-          <div className="grid gap-8">
-            {p.phases.map((ph, i) => (
-              <Reveal key={ph.name + i} delay={i * 50}>
-                <div className="bg-ink-2 rounded-[0_24px_24px_0] border-s-4 overflow-hidden" style={{ borderColor: p.accent }}>
-                  <div className="flex flex-wrap items-center justify-between gap-3 px-5 lg:px-7 py-5 border-b border-white/10">
-                    <div>
-                      <h3 className="text-xl font-bold"><T>{ph.name}</T></h3>
-                      <p className="text-sm text-sand-2 mt-1">التسليم: <T>{ph.delivery}</T></p>
-                    </div>
-                    {ph.discount && (
-                      <span className="text-sm font-bold bg-gold-2 text-ink px-3 py-1.5 rounded-full">
-                        خصم كاش <span className="num">{ph.discount}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[620px] text-sm">
-                      <thead>
-                        <tr className="text-sand-2 text-xs">
-                          <th className="text-right font-medium px-5 lg:px-7 py-3">نوع الوحدة</th>
-                          <th className="text-right font-medium py-3">المساحة م²</th>
-                          <th className="text-right font-medium py-3">الأرض / الجاردن م²</th>
-                          <th className="text-right font-medium py-3">التشطيب</th>
-                          <th className="text-right font-medium py-3">يبدأ من (ج.م)</th>
-                          <th className="py-3 px-5" />
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {ph.units.map((u, j) => (
-                          <tr key={j} className="border-t border-white/5 hover:bg-white/[.03]">
-                            <td className="px-5 lg:px-7 py-3.5 font-semibold"><T>{u.type}</T></td>
-                            <td className="py-3.5"><T>{u.bua}</T></td>
-                            <td className="py-3.5 text-sand-2">{u.land ? <T>{u.land}</T> : "—"}</td>
-                            <td className="py-3.5 text-sand"><T>{u.finishing}</T></td>
-                            <td className="py-3.5 font-bold text-base">{u.price ? <span className="num">{fmt(u.price)}</span> : "عند الطلب"}</td>
-                            <td className="py-3.5 px-5 text-left">
-                              <a href={waLink(`${p.name} — ${ph.name} — ${u.type}`)} target="_blank" rel="noopener" className="text-gold-2 hover:underline whitespace-nowrap">اسأل ←</a>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                  <p className="px-5 lg:px-7 py-4 text-sm bg-white/[.04] text-sand"><span className="text-gold-2 font-semibold">نظام السداد: </span><T>{ph.plan}</T></p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <p className="text-xs text-sand-2 mt-6">{p.indicative ? "* أسعار استرشادية — تواصل معنا لآخر برايس ليست." : "* الأسعار حسب آخر فاكت شيت من سوديك، وقابلة للتغيير حسب المرحلة والدور والإطلالة."}</p>
+          <UnitCards p={p} />
+          <p className="text-xs text-sand-2 mt-6">{p.priceNote ?? (p.indicative ? "* أسعار استرشادية — تواصل معنا لآخر برايس ليست." : "* الأسعار حسب آخر فاكت شيت من سوديك، وقابلة للتغيير حسب المرحلة والدور والإطلالة.")}</p>
         </div>
       </section>
 
@@ -205,6 +195,50 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 </li>
               ))}
             </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* PHASES / ZONES */}
+      {d?.zones && (
+        <section className="py-20 bg-sand/40">
+          <div className="mx-auto max-w-7xl px-4">
+            <Reveal>
+              <p className="eyebrow mb-3">Phases</p>
+              <h2 className="text-3xl font-bold mb-10">مراحل <span className="latin">{p.name}</span> المتاحة</h2>
+            </Reveal>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {d.zones.map((z, i) => (
+                <Reveal key={z.name} delay={i * 50}>
+                  <div className="h-full rounded-2xl p-6 bg-paper">
+                    <p className="num text-sm font-bold mb-3" style={{ color: p.accent }}>{String(i + 1).padStart(2, "0")}</p>
+                    <h3 className="text-lg font-bold mb-2"><T>{z.name}</T></h3>
+                    <p className="text-sm text-ink/65 leading-7"><T>{z.detail}</T></p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* DEVELOPER */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-4 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
+          <Reveal>
+            <p className="eyebrow mb-3">The Developer</p>
+            <h2 className="text-3xl font-bold mb-5">عن المطوّر — سوديك <span className="latin">SODIC</span></h2>
+            <p className="text-ink/70 leading-8"><T>{DEVELOPER.text}</T></p>
+          </Reveal>
+          <Reveal delay={60}>
+            <div className="grid grid-cols-2 gap-4">
+              {DEVELOPER.facts.map((f) => (
+                <div key={f.label} className="bg-sand/50 rounded-2xl p-5 border-s-4" style={{ borderColor: p.accent }}>
+                  <p className="num text-2xl font-bold">{f.value}</p>
+                  <p className="text-xs text-ink/60 mt-1"><T>{f.label}</T></p>
+                </div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>

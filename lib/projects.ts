@@ -1,5 +1,5 @@
 // Source: SODIC Fact Sheet — All Projects (Nov 2026). Prices in EGP millions.
-// Villette is NOT in the fact sheet — its numbers are indicative (marked `indicative: true`).
+// East Vale is not in the fact sheet — prices from current market listings (Nov 2026).
 
 export type Unit = { type: string; bua: string; land?: string; finishing: string; price: number | null };
 export type Phase = { name: string; delivery: string; plan: string; discount?: string; units: Unit[] };
@@ -17,6 +17,7 @@ export type Project = {
   years: string;
   badge?: string;
   indicative?: boolean;
+  priceNote?: string;
   stats: { value: string; label: string }[];
   phases: Phase[];
   payment: { title: string; detail: string }[];
@@ -30,6 +31,7 @@ export type Project = {
 const FF = "كامل التشطيب";
 const SEMI = "نصف تشطيب";
 const CS = "Core & Shell";
+const FF_AC = "كامل التشطيب بالتكييفات";
 const PLAN_RTM = "5% مقدم — 3% بعد 6 شهور — 8% بعد 9 شهور — والباقي على 8 سنوات أقساط متساوية";
 const PLAN_10 = "5% مقدم — والباقي على 10 سنوات (Back-loaded)";
 const PLAN_ER = "5% مقدم — أول قسط بعد 6 شهور — على 8 سنوات";
@@ -153,7 +155,7 @@ export const PROJECTS: Project[] = [
         ],
       },
       {
-        name: "Karmell 01 — Core & Shell", delivery: "مارس 2028", plan: PLAN_10, discount: "37.19%",
+        name: "Karmell 01 — تسليم 2028", delivery: "مارس 2028", plan: PLAN_10, discount: "37.19%",
         units: [
           { type: "شقة غرفة", bua: "82", land: "80", finishing: CS, price: 8.8 },
           { type: "شقة غرفتين", bua: "122", land: "102", finishing: CS, price: 13 },
@@ -163,7 +165,7 @@ export const PROJECTS: Project[] = [
         ],
       },
       {
-        name: "Karmell 01 — متشطب", delivery: "مارس 2029", plan: PLAN_10, discount: "37.19%",
+        name: "Karmell 01 — تسليم 2029", delivery: "مارس 2029", plan: PLAN_10, discount: "37.19%",
         units: [
           { type: "شقة غرفة", bua: "82", land: "80", finishing: FF, price: 14.8 },
           { type: "شقة غرفتين", bua: "122", land: "95", finishing: FF, price: 18.9 },
@@ -278,59 +280,6 @@ export const PROJECTS: Project[] = [
     keywords: ["ذا إستيتس سوديك", "The Estates SODIC", "The Estates Residences", "نوبو نيو زايد"],
   },
   {
-    slug: "villette",
-    name: "Villette",
-    nameAr: "ڤيليت",
-    region: "east",
-    location: "التجمع الخامس — القاهرة الجديدة",
-    tagline: "301 فدان في قلب التجمع الخامس",
-    intro:
-      "Villette من سوديك واحد من أكبر مجتمعات التجمع الخامس على 301 فدان، بيضم V Residence والشقق والتاون هاوس والڤيلات، مع كلوب هاوس ومنطقة تجارية ومساحات خضراء.",
-    accent: "#2a4a6b",
-    startPrice: "11M",
-    downPayment: "مرن",
-    years: "10",
-    badge: "301 فدان",
-    indicative: true,
-    stats: [
-      { value: "301", label: "فدان" },
-      { value: "10", label: "سنوات تقسيط" },
-      { value: "11M", label: "تبدأ من (ج.م)" },
-    ],
-    phases: [
-      {
-        name: "Villette", delivery: "حسب المرحلة", plan: "تقسيط حتى 10 سنوات — المقدم حسب المرحلة",
-        units: [
-          { type: "شقق V Residence", bua: "156 – 234", finishing: "—", price: 11.1 },
-          { type: "تاون هاوس", bua: "حسب المرحلة", finishing: "—", price: null },
-          { type: "ڤيلات", bua: "حسب المرحلة", finishing: "—", price: null },
-        ],
-      },
-    ],
-    payment: [
-      { title: "تقسيط حتى 10 سنوات", detail: "المقدم حسب المرحلة ونوع الوحدة" },
-      { title: "وحدات جاهزة", detail: "فيه وحدات قريبة الاستلام في مراحل مسلّمة" },
-    ],
-    highlights: [
-      "V Residence — شقق داخل Villette",
-      "كلوب هاوس راقي",
-      "قريب من الجامعة الأمريكية وشارع التسعين",
-      "مراحل مسلّمة ومجتمع مسكون",
-    ],
-    amenities: ["كلوب هاوس", "حمامات سباحة", "منطقة تجارية", "عيادات وصيدليات", "سوبر ماركت", "ملاعب", "مساحات خضراء", "أمن 24 ساعة"],
-    nearby: [
-      { place: "الجامعة الأمريكية", time: "10 دقائق" },
-      { place: "شارع التسعين", time: "10 دقائق" },
-      { place: "العاصمة الإدارية", time: "25 دقيقة" },
-    ],
-    faq: [
-      { q: "أسعار Villette سوديك تبدأ من كام؟", a: "شقق V Residence تبدأ من حوالي 11 مليون جنيه — أسعار استرشادية." },
-      { q: "Villette فين؟", a: "في التجمع الخامس بالقاهرة الجديدة." },
-      { q: "إيه نظام السداد؟", a: "تقسيط حتى 10 سنوات، والمقدم حسب المرحلة ونوع الوحدة." },
-    ],
-    keywords: ["ڤيليت سوديك", "Villette SODIC", "V Residence", "كمبوند ڤيليت التجمع الخامس"],
-  },
-  {
     slug: "sodic-east",
     name: "SODIC East",
     nameAr: "سوديك إيست",
@@ -405,6 +354,73 @@ export const PROJECTS: Project[] = [
       { q: "فيه استلام فوري في سوديك إيست؟", a: "أيوه، تاون هاوس وڤيلات في Orchid وIVY استلام فوري بمقدم 5% وتقسيط 8 سنوات." },
     ],
     keywords: ["سوديك إيست", "SODIC East", "سوديك إيست هليوبوليس الجديدة", "أسعار سوديك إيست"],
+  },
+  {
+    slug: "east-vale",
+    name: "East Vale",
+    nameAr: "إيست ڤيل",
+    region: "east",
+    location: "مدينة المستقبل (مدى) — شرق القاهرة",
+    tagline: "أحدث مشاريع سوديك على 500 فدان — كامل التشطيب بالتكييفات",
+    intro:
+      "East Vale أحدث وأكبر مشاريع سوديك في شرق القاهرة، على 500 فدان داخل مدينة مدى بالمستقبل سيتي، 5 دقائق من الحي الحكومي بالعاصمة الإدارية. كل الوحدات كاملة التشطيب بالتكييفات، بمقدم 5% وتقسيط حتى 9 سنين.",
+    accent: "#4d7a6a",
+    startPrice: "9.7M",
+    downPayment: "5%",
+    years: "9",
+    badge: "أحدث إطلاق",
+    priceNote: "* أسعار East Vale حسب آخر الأسعار المعروضة في السوق (نوفمبر 2026)، وقابلة للتغيير حسب المرحلة والموقع.",
+    stats: [
+      { value: "500", label: "فدان" },
+      { value: "5%", label: "مقدم" },
+      { value: "9", label: "سنوات تقسيط" },
+    ],
+    phases: [
+      {
+        name: "East Vale — شقق", delivery: "2029 – 2030", plan: "5% مقدم — والباقي حتى 9 سنوات أقساط متساوية",
+        units: [
+          { type: "شقة غرفة", bua: "70 – 80", finishing: FF_AC, price: 9.736 },
+          { type: "شقة غرفتين", bua: "122 – 128", finishing: FF_AC, price: 14.331 },
+          { type: "شقة 3 غرف + ناني", bua: "165 – 175", finishing: FF_AC, price: 17.9 },
+          { type: "شقة 3 غرف + ناني بجاردن", bua: "184 – 185", finishing: FF_AC, price: 26 },
+          { type: "بنتهاوس", bua: "174", finishing: FF_AC, price: 26.369 },
+        ],
+      },
+      {
+        name: "East Vale — ڤيلات", delivery: "2029 – 2030", plan: "5% مقدم — والباقي حتى 9 سنوات أقساط متساوية",
+        units: [
+          { type: "تاون هاوس", bua: "176 – 180", finishing: FF_AC, price: 34.081 },
+          { type: "توين هاوس", bua: "217 – 218", finishing: FF_AC, price: 39.318 },
+          { type: "ڤيلا مستقلة", bua: "220 – 250", land: "452", finishing: FF_AC, price: 54.37 },
+          { type: "ڤيلا مستقلة كبيرة", bua: "311", land: "560", finishing: FF_AC, price: 65 },
+        ],
+      },
+    ],
+    payment: [
+      { title: "مقدم 5%", detail: "والباقي على أقساط متساوية حتى 9 سنوات بدون فوايد" },
+      { title: "كامل التشطيب بالتكييفات", detail: "كل الوحدات متسلّمة متشطبة بتصميم PBD Architects" },
+      { title: "حجز EOI", detail: "250,000 للشقق — 500,000 للڤيلات" },
+    ],
+    highlights: [
+      "ماستر بلان EDSA العالمية — 13% بناء بس",
+      "85% ڤيلات و15% شقق — 4,500 وحدة",
+      "Wellness Boulevard بطول 1.3 كم وعرض 80 متر",
+      "نادي Club S على 15 فدان + Wellness Club",
+    ],
+    amenities: ["Wellness Boulevard 1.3 كم", "Wellness Club", "Club S 15 فدان", "Garden Trails", "Retail Village", "Business District", "مسطحات مائية 20,000 م²", "أمن 24 ساعة"],
+    nearby: [
+      { place: "الحي الحكومي — العاصمة الإدارية", time: "5 دقائق" },
+      { place: "Villette سوديك", time: "15 دقيقة" },
+      { place: "الجامعة الأمريكية", time: "20 دقيقة" },
+      { place: "مطار القاهرة الدولي", time: "30 دقيقة" },
+    ],
+    faq: [
+      { q: "أسعار East Vale سوديك تبدأ من كام؟", a: "الشقق تبدأ من حوالي 9,736,000 جنيه، والتاون هاوس من حوالي 34,081,000، والڤيلات المستقلة من حوالي 54,370,000 جنيه." },
+      { q: "إيه نظام السداد في East Vale؟", a: "5% مقدم والباقي على أقساط متساوية حتى 9 سنوات." },
+      { q: "East Vale فين؟", a: "في مدينة مدى بالمستقبل سيتي — شرق القاهرة، 5 دقائق من الحي الحكومي بالعاصمة الإدارية." },
+      { q: "الوحدات متشطبة؟", a: "أيوه، كل وحدات East Vale كاملة التشطيب بالتكييفات." },
+    ],
+    keywords: ["ايست فيل سوديك", "East Vale SODIC", "سوديك المستقبل سيتي", "أسعار ايست فيل"],
   },
 ];
 

@@ -9,7 +9,7 @@ Static Next.js 16 / React 19 / Tailwind 4 landing site.
 | `/vye` | VYE — New Zayed |
 | `/karmell` | Karmell — New Zayed |
 | `/the-estates` | The Estates / Residences — New Zayed |
-| `/villette` | Villette — New Cairo |
+| `/east-vale` | East Vale — Mostakbal City |
 | `/sodic-east` | SODIC East — New Heliopolis |
 | `/thank-you` | noindex, form redirect target |
 | `/about` `/privacy` `/disclaimer` | compliance pages |
@@ -29,7 +29,8 @@ public/images/<slug>/hero.jpg        (project hero)
 public/images/<slug>/card.jpg        (project card)
 public/images/<slug>/about.jpg       (about section)
 ```
-slugs: vye, karmell, the-estates, villette, sodic-east
+slugs: vye, karmell, the-estates, sodic-east, east-vale
+Gallery: g01.jpg … gNN.jpg (auto-detected). Unit-card photos: unit-apt / unit-duplex / unit-family / unit-townhouse / unit-twin / unit-villa.jpg
 
 ## Run
 ```
