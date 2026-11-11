@@ -3,11 +3,11 @@ export const SITE = {
   name: "SODIC Projects",
   brand: "Grandeur Spaces",
   brandAr: "جراندير سبيسيز",
-  domain: "https://sodic-projects.example.com", // TODO: الدومين النهائي
-  phone: "01277707799",
-  whatsapp: "201277707799",
-  email: "leads@grandeur-spaces.com",
-  web3formsKey: "YOUR_WEB3FORMS_ACCESS_KEY", // TODO: مفتاح Web3Forms
+  domain: "https://sodic-properties.net", // TODO: الدومين النهائي
+  phone: "01119436202",
+  whatsapp: "201119436202",
+  email: "leads@sodic-properties.net",
+  web3formsKey: "09fb44ce-8c73-4438-bf9f-9bf890f15f6d", // TODO: مفتاح Web3Forms
   agencyName: "One Click",
   agencyUrl: "https://example.com", // TODO: رابط موقع One Click
   // Google Ads — ضع الـ IDs هنا
